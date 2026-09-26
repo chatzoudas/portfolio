@@ -22,7 +22,6 @@ export default function Model({
   const screen = model.scene.getObjectByName('Screen');
   const { camera, gl } = useThree();
 
-  // report loading progress from drei hook (works inside <Canvas>)
   const { progress } = useProgress();
   useEffect(() => {
     onProgress?.(Math.round(progress));
@@ -63,13 +62,11 @@ export default function Model({
       const mesh = obj as Mesh;
       const originalY = mesh.position.y;
 
-      // Press down
       gsap.to(mesh.position, {
         y: originalY - 0.01,
         duration: 0.1,
         ease: "power2.in",
         onComplete: () => {
-          // Release back up
           gsap.to(mesh.position, {
             y: originalY,
             duration: 0.1,
@@ -80,7 +77,6 @@ export default function Model({
     }
   }, [model.scene]);
 
-  // Key press listener
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.repeat) return;
@@ -93,15 +89,12 @@ export default function Model({
       if (keyName == "key_ ") {
         keyName = "key_space";
       }
-      //console.log("Key pressed:", e.key, "Looking for:", keyName);
       animateButtonPress(keyName);
     };
 
-    // Listen for keyboard events on both window and iframe messages
     window.addEventListener("keydown", handleKeyPress);
 
     const handleMessage = (e: MessageEvent) => {
-      // Check if message is 'keydown' from the iframe
       if (e.data?.type === 'keydown' && e.source === iframeRef.current?.contentWindow) {
         const audio = new Audio('/SoundEffects/keyboard-click.mp3');
         audio.volume = 0.05;
@@ -126,7 +119,6 @@ export default function Model({
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const iframeMountedCalled = useRef(false);
 
-  // Play sound when clicking the iframe (window blur + activeElement check)
   useEffect(() => {
     const handleBlur = () => {
       if (document.activeElement === iframeRef.current) {
@@ -142,7 +134,6 @@ export default function Model({
     };
   }, []);
 
-  // notify that iframe is mounted (start of iframe load)
   useEffect(() => {
     if (screen && iframeRef.current && !iframeMountedCalled.current) {
       iframeMountedCalled.current = true;
@@ -150,7 +141,6 @@ export default function Model({
     }
   }, [screen, onIframeMounted]);
 
-  // --- Hover / Click behavior for "Sticker_github", "Sticker_linkedin", "Sticker_mail" ---
   useEffect(() => {
     if (!model || !gl || !camera) return;
 
@@ -173,7 +163,6 @@ export default function Model({
       if (obj && obj.isMesh) {
         stickerObjs.push(obj);
 
-        // each outline needs its own material instance to animate opacity independently
         const mat = new MeshBasicMaterial({ color: 0xf5f2d7, side: BackSide, transparent: true, opacity: 0 });
         const outline = new Mesh(obj.geometry, mat);
         outline.scale.set(1.05, 1.05, 1.05);
@@ -227,7 +216,6 @@ export default function Model({
       if (intersects.length > 0) {
         const hitName = findStickerRootName(intersects[0].object);
         canvas.style.cursor = 'pointer';
-        // animate outlines: show the hit one, hide others
         for (let i = 0; i < stickerObjs.length; i++) {
           const s = stickerObjs[i];
           const out = outlines[i];
@@ -239,7 +227,6 @@ export default function Model({
         }
       } else {
         canvas.style.cursor = 'default';
-        // hide all
         for (const out of outlines) {
           if ((out.material as any).opacity > 0) hideOutline(out);
         }
@@ -259,23 +246,12 @@ export default function Model({
       }
     };
 
-    const onContextMenu = (e: MouseEvent) => {
-      setPointerFromEvent(e);
-      raycaster.setFromCamera(pointer, camera);
-      const intersects = raycaster.intersectObjects(stickerObjs, true);
-      if (intersects.length > 0) {
-
-      }
-    };
-
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('click', onClick);
-    canvas.addEventListener('contextmenu', onContextMenu);
 
     return () => {
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('click', onClick);
-      canvas.removeEventListener('contextmenu', onContextMenu);
       for (const out of outlines) {
         out.removeFromParent();
 

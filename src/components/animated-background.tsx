@@ -5,49 +5,16 @@ import { useEffect, useState } from "react";
 import { Dithering } from "@paper-design/shaders-react";
 
 interface AnimatedBackgroundProps {
-  /**
-   * Background color (default: "#000000")
-   */
   backgroundColor?: string;
-  /**
-   * Front color for the dithering effect (default: "#614B00")
-   */
   colorFront?: string;
-  /**
-   * Back color for the dithering effect (default: "#00000000" - transparent)
-   */
   colorBack?: string;
-  /**
-   * Animation speed (default: 0.43)
-   */
   speed?: number;
-  /**
-   * Dithering shape (default: "wave")
-   */
   shape?: "wave" | "simplex" | "warp" | "dots" | "ripple" | "swirl" | "sphere";
-  /**
-   * Dithering type/pattern (default: "4x4")
-   */
   type?: "2x2" | "4x4" | "8x8";
-  /**
-   * Pixel size for the dithering effect (default: 3)
-   */
   pxSize?: number;
-  /**
-   * Scale of the pattern (default: 1.13)
-   */
   scale?: number;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
-  /**
-   * Children to render on top of the background
-   */
   children?: React.ReactNode;
-  /**
-   * Whether to enable rainbow effect
-   */
   rainbow?: boolean;
 }
 
@@ -73,13 +40,13 @@ export function AnimatedBackground({
     }
 
     const colors = [
-      '#FF0000', // Red
-      '#FF7F00', // Orange
-      '#FFFF00', // Yellow
-      '#00FF00', // Green
-      '#0000FF', // Blue
-      '#4B0082', // Indigo
-      '#9400D3'  // Violet
+      '#FF0000',
+      '#FF7F00',
+      '#FFFF00',
+      '#00FF00',
+      '#0000FF',
+      '#4B0082',
+      '#9400D3'
     ];
     let colorIndex = 0;
 
@@ -93,7 +60,6 @@ export function AnimatedBackground({
 
   return (
     <div className={`relative ${className}`}>
-      {/* Fixed background layer */}
       <div className="fixed inset-0 z-0">
         <Dithering
           colorBack={colorBack}
@@ -115,7 +81,6 @@ export function AnimatedBackground({
         />
       </div>
 
-      {/* Content layer */}
       {children && <div className="relative z-10">{children}</div>}
     </div>
   );

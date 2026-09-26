@@ -90,8 +90,8 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 6px 8px; /* minimal padding */
-  font-size: 11px; /* smaller text */
+  padding: 6px 8px;
+  font-size: 11px;
   line-height: 1;
   color: black;
 
