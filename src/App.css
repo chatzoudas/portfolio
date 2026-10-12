@@ -117,3 +117,47 @@
 .nodisplay {
   display: none;
 }
+
+.perf-meter {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  width: 210px;
+  z-index: 9998;
+  font-size: 11px;
+  color: black;
+}
+
+.perf-meter .window-body {
+  margin: 0 3px 3px 3px;
+}
+
+.perf-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.perf-head .perf-fps {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.perf-badge {
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 6px;
+}
+
+.perf-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1px 8px;
+  font-family: monospace;
+}
+
+.perf-grid span:nth-child(even) {
+  text-align: right;
+}

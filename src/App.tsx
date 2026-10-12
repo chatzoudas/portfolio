@@ -8,6 +8,8 @@ import Controller from "./components/controller";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import Loader from "./components/loader";
+import PerfMeter from "./components/perf-meter";
+import type { WebGLRenderer } from "three";
 
 function App() {
   const [resetCamera, setResetCamera] = useState<(() => void)>(() => () => { });
@@ -56,6 +58,7 @@ function App() {
   }, [iframeLoaded]);
 
   const targetCombined = Math.round(modelProgress * 0.8 + iframeProgress * 0.2);
+  const rendererRef = useRef<WebGLRenderer | null>(null);
 
   const [displayProgress, setDisplayProgress] = useState<number>(0);
   const rafRef = useRef<number | null>(null);
@@ -103,6 +106,15 @@ function App() {
   const allDone = modelProgress >= 100 && iframeLoaded;
   const showLoader = !allDone;
 
+  const [loadMs, setLoadMs] = useState<number | null>(null);
+  const loadRecordedRef = useRef(false);
+  useEffect(() => {
+    if (allDone && !loadRecordedRef.current) {
+      loadRecordedRef.current = true;
+      setLoadMs(performance.now());
+    }
+  }, [allDone]);
+
   useEffect(() => {
     if (!showLoader) {
       const iframe = document.querySelector('iframe.nodisplay');
@@ -127,6 +139,9 @@ function App() {
         <div style={{ width: "100vw", height: "100vh" }}>
           <Canvas
             camera={{ position: [0, 0, 6], fov: 45 }}
+            onCreated={({ gl }) => {
+              rendererRef.current = gl as unknown as WebGLRenderer;
+            }}
           >
             <Model
               onCameraReset={handleCameraReset}
@@ -143,6 +158,7 @@ function App() {
           onPartyToggle={toggleRainbowMode}
           isPartyMode={isRainbowMode}
         />
+        <PerfMeter rendererRef={rendererRef} loadMs={loadMs} />
       </AnimatedBackground>
     </div>
   );
