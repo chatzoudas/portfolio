@@ -1,10 +1,10 @@
 # Nick Chatzoudas — 3D Portfolio
 
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
-![Three.js](https://img.shields.io/badge/Three.js-black?logo=three.js&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-4076ed?logo=three.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-06B6D4?logo=tailwindcss&logoColor=white)
 
 An interactive 3D portfolio: a retro computer rendered in the browser, with a "fully" working OS live on its screen.
 
